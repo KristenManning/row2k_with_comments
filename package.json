@@ -1,0 +1,28 @@
+{
+  "name": "row2k_with_comments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KristenManning/row2k_with_comments.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KristenManning/row2k_with_comments/issues"
+  },
+  "homepage": "https://github.com/KristenManning/row2k_with_comments#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cheerio": "^0.22.0",
+    "express": "^4.15.2",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^4.9.3",
+    "request": "^2.81.0"
+  }
+}
