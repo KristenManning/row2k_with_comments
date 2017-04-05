@@ -113,9 +113,9 @@ app.get("/", function(req, res) {
   });
 });
 
-app.post("/cheer", function(req, res) {
+app.post("/cheer/:id", function(req, res) {
   // Grab every doc in the Articles array
-  Rower.update({$push: { comments: req.body.comment } }, function(error, doc) {
+  Rower.update({_id: req.params.id},{$push:{ comments: req.body.comment } }, function(error, doc) {
     // Log any errors
     if (error) {
       console.log(error);
