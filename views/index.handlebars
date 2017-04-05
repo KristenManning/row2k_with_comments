@@ -3,20 +3,21 @@
 <div class = container>
 
 	{{#each rowers}}
+
 		<div class = "row">
-			<div class = "col-md-3">
+			<div class = "col-md-4 name-pod">
 				<a href="http://www.mitathletics.com{{link}}"><h3>{{name}}</h3></a>
 				<h5>{{hometown}} </h5>
 				<p>{{major}} | {{class_year}} | {{height}} </p>
 			</div>
-			<div class= "col-md-3">
+			<div class= "col-md-2">
 				<img src="http://www.mitathletics.com{{img}}">
 			</div>
 			<div class = "col-md-3">
 			<h4> Cheer {{name}} on! </h4>
 				<ul>
 					{{#each comments}}
-						<li> {{this}} </li>
+						<li> {{this}} <a method="POST" href="/delete">X</a></li>
 					{{/each}}
 				</ul>
 			</div>
@@ -29,6 +30,8 @@
 				</form>
 			</div>
 		</div>
+
+		<hr>
 
 
 	{{/each}}
