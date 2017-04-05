@@ -1,1 +1,35 @@
-<h1> index.handlebars </h1>
+<h1> MIT Women's Openweight Crew </h1>
+
+<div class = container>
+
+	{{#each rowers}}
+		<div class = "row">
+			<div class = "col-md-3">
+				<a href="http://www.mitathletics.com{{link}}"><h3>{{name}}</h3></a>
+				<h5>{{hometown}} </h5>
+				<p>{{major}} | {{class_year}} | {{height}} </p>
+			</div>
+			<div class= "col-md-3">
+				<img src="http://www.mitathletics.com{{img}}">
+			</div>
+			<div class = "col-md-3">
+				<ul>
+					{{#each comments}}
+						<li> {{this}} </li>
+					{{/each}}
+				</ul>
+			</div>
+			<div class= "col-md-3">
+				<h4> Cheer {{name}} on! </h4>
+				<form action="/" method = "post">
+					<textarea></textarea> 
+					<button class="btn btn-danger" type="submit">CHEER</button>
+				</form>
+				
+
+			</div>
+		</div>
+
+
+	{{/each}}
+</div>
