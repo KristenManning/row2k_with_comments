@@ -13,6 +13,7 @@
 				<img src="http://www.mitathletics.com{{img}}">
 			</div>
 			<div class = "col-md-3">
+			<h4> Cheer {{name}} on! </h4>
 				<ul>
 					{{#each comments}}
 						<li> {{this}} </li>
@@ -20,13 +21,11 @@
 				</ul>
 			</div>
 			<div class= "col-md-3">
-				<h4> Cheer {{name}} on! </h4>
-				<form action="/" method = "post">
-					<textarea></textarea> 
+				<form action="/cheer" method = "post">
+					<textarea name="comment"></textarea> 
+					<br>
 					<button class="btn btn-danger" type="submit">CHEER</button>
 				</form>
-				
-
 			</div>
 		</div>
 

@@ -113,6 +113,20 @@ app.get("/", function(req, res) {
   });
 });
 
+app.post("/cheer", function(req, res) {
+  // Grab every doc in the Articles array
+  Rower.update({$push: { comments: req.body.comment } }, function(error, doc) {
+    // Log any errors
+    if (error) {
+      console.log(error);
+    }
+    // Or send the doc to the browser as a json object
+    else {
+      res.redirect("/");
+    }
+  });
+});
+
 // Listen on port 3000
 app.listen(3000, function() {
   console.log("App running on port 3000!");
