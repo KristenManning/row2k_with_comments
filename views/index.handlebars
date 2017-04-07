@@ -5,7 +5,7 @@
 	{{#each rowers}}
 
 		<div class = "row">
-			<div class = "col-md-4 name-pod">
+			<div class = "col-md-3 name-pod">
 				<a href="http://www.mitathletics.com{{link}}"><h3>{{name}}</h3></a>
 				<h5>{{hometown}} </h5>
 				<p>{{major}} | {{class_year}} | {{height}} </p>
@@ -13,18 +13,30 @@
 			<div class= "col-md-2">
 				<img src="http://www.mitathletics.com{{img}}">
 			</div>
-			<div class = "col-md-3">
-			<h4> Cheer {{name}} on! </h4>
-				<ul>
-					{{#each comments}}
-						<li> {{this}} <a method="POST" href="/delete">X</a></li>
-					{{/each}}
-				</ul>
+			<div class = "col-md-4">
+				<div class = "cheer-pod">
+					<h4> Cheer {{name}} on! </h4>
+					Comments = {{comments}}
+						<ul>
+							
+							{{#each comments}}
+								<li> {{this}} 
+								Value of ../comments = {{../comments}}
+
+								<form id="myform" method="post" action="/remove/{{../_id}}/{{@index}}">
+								  <input type="hidden" name="comments" value="{{../comments}}" /> 
+								  <a onclick="document.getElementById('myform').submit();">X</a>
+								</form>
+
+								</li>
+							{{/each}}
+						</ul>
+					</div>
 			</div>
 			<div class= "col-md-3">
 				<br><br>
 				<form action="/cheer/{{_id}}" method = "post">
-					<textarea name="comment">Go Tech!</textarea> 
+					<h6><textarea name="comment">Go Tech!</textarea></h6>
 					<br>
 					<button class="btn btn-danger" type="submit">CHEER</button>
 				</form>

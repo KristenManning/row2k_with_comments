@@ -127,7 +127,37 @@ app.post("/cheer/:id", function(req, res) {
   });
 });
 
+app.post("/remove/:id/:index", function(req, res) {
+  // Grab every doc in the Articles array
+  // console.log(Array.isArray(req.body.comments))
+  // new_comments = [req.body.comments]
+  // new_comments.splice(req.params.index,1)
+  Rower.find({_id: req.params.id}, function(error, doc) {
+      new_comments = doc[0].comments 
+      new_comments.splice(req.params.index, 1)
+      Rower.update({_id: req.params.id},{$set:{ comments: new_comments } }, function(error, doc) {
+        // Log any errors
+        if (error) {
+          console.log(error);
+        }
+        // Or send the doc to the browser as a json object
+        else {
+          res.redirect("/");
+        }
+    });
+    // // Log any errors
+    // if (error) {
+    //   console.log(error);
+    // }
+    // // Or send the doc to the browser as a json object
+    // else {
+    //   res.render("index", {"rowers": doc});
+    // }
+  });
+
+});
+
 // Listen on port 3000
-app.listen(3000, function() {
-  console.log("App running on port 3000!");
+app.listen(3101, function() {
+  console.log("App running on port 3101!");
 });
