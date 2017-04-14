@@ -37,7 +37,6 @@ db.on("error", function(error) {
 db.once("open", function() {
   console.log("Mongoose connection successful.");
 });
-db.dropDatabase();
 
 // ------------------------------------------------
 
@@ -46,20 +45,15 @@ var request = require('request');
 // Scrapes our HTML
 var cheerio = require('cheerio');
 
-// Make a request call to grab the HTML body from the site of your choice
-request('http://www.mitathletics.com/sports/w-crewop/2016-17/roster', function (error, response, html) {
-
-  // Load the HTML into cheerio and save it to a variable
-  // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
+// execute this function when you want to scrape everything that's currently on the roster page
+var scrape_roster = function(){
+  request('http://www.mitathletics.com/sports/w-crewop/2016-17/roster', function (error, response, html) {
   var $ = cheerio.load(html);
 
   $('tr').each(function(i, element){
 
     var result = {};
 
-    // Add the text and href of every link, and save them as properties of the result object
-    // result.name = $(element).children().children().text();
-    // result.link = $(element).children().children().attr("href");
     var name = $(element).children(".name")
     result.name = name.text()
     var class_year = name.next()
@@ -73,34 +67,33 @@ request('http://www.mitathletics.com/sports/w-crewop/2016-17/roster', function (
     result.link = name.children().attr("href")
     result.img = $(element).children(".headshot").children().children().attr("src")
 
-
-    // result.link = $(element).children(".name").attr("href")
-    // result.hometown = $(element).text();
-    // result.major = $(element).text()
-
     // Create a new Rower document for each title-link pair 
     var rower_doc = new Rower(result);
     
-      // Now, save that entry to the db
-    if (result.name){
-      rower_doc.save(function(err, doc) {
-        // Log any errors
-        if (err) {
-          console.log(err);
+    Rower.find({name: result.name}, function(error, doc) {
+      if (error) {
+        console.log(error);
+      }
+      // save the doc *if it's not already in the db*
+      else {
+        if (doc.length == 0 && result.name.length > 0){
+          rower_doc.save(function(err, doc) {
+            if (err) {
+              console.log(err);
+              }
+            });
+          }
         }
-        // Or log the doc
-        else {
-          console.log(doc);
-        }
-        });
-    }
-    
+      });
+    });
   });
-});
+}
 
-// This will get the articles we scraped from the mongoDB
+// Each time a user visits the home route, scrape the roster for *new* entries, 
+// then render *everything that's in the db* through handlebars
 app.get("/", function(req, res) {
-  // Grab every doc in the Articles array
+  scrape_roster()
+
   Rower.find({}, function(error, doc) {
     // Log any errors
     if (error) {
@@ -113,48 +106,42 @@ app.get("/", function(req, res) {
   });
 });
 
+// Update comments on selected rower with whatever is written in textbox
 app.post("/cheer/:id", function(req, res) {
-  // Grab every doc in the Articles array
-  Rower.update({_id: req.params.id},{$push:{ comments: req.body.comment } }, function(error, doc) {
+  
+  Rower.update(
+    // update selected rower 
+    {_id: req.params.id},
+    // push new comment into array of comments 
+    {$push:{ comments: req.body.comment } }, 
+    function(error, doc) {
     // Log any errors
     if (error) {
       console.log(error);
     }
-    // Or send the doc to the browser as a json object
     else {
       res.redirect("/");
     }
   });
 });
 
+// Remove selected comment 
 app.post("/remove/:id/:index", function(req, res) {
-  // Grab every doc in the Articles array
-  // console.log(Array.isArray(req.body.comments))
-  // new_comments = [req.body.comments]
-  // new_comments.splice(req.params.index,1)
+
   Rower.find({_id: req.params.id}, function(error, doc) {
+      // Create a new array to splice the selected comment from 
       new_comments = doc[0].comments 
       new_comments.splice(req.params.index, 1)
+      // Replace the old comments field value with the new (spliced) comments array in the db 
       Rower.update({_id: req.params.id},{$set:{ comments: new_comments } }, function(error, doc) {
-        // Log any errors
         if (error) {
           console.log(error);
         }
-        // Or send the doc to the browser as a json object
         else {
           res.redirect("/");
         }
     });
-    // // Log any errors
-    // if (error) {
-    //   console.log(error);
-    // }
-    // // Or send the doc to the browser as a json object
-    // else {
-    //   res.render("index", {"rowers": doc});
-    // }
   });
-
 });
 
 // Listen on port 3000

@@ -11,7 +11,20 @@ p{
 	font-size: 12px;
 }
 
+li{
+	color: black;
+	font-size: 16px;
+}
+
+a{
+	color: #CC0000;
+}
+
+.row{
+	padding: 1%
+}
 .container{
+	padding: 5%
 	width: 80%;
 	background: url(/images/mit_crew.jpg) scroll;
 /*	background-size: auto;*/
@@ -24,12 +37,15 @@ p{
 	background-color: white;
 	opacity: 0.85;
 	height: 200px;
+	padding: 3%;
 }
 textarea{
 	width: 100%;
 	height: 100px;
 	background-color: black;
-	font: white;
+	color: white;
+	border: solid;
+	border: black;
 }
 
 img{
