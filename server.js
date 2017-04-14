@@ -27,7 +27,7 @@ app.set("view engine", "handlebars");
 // ------------------------------------------------
 // Database configuration with mongoose
 
-mongoose.connect("mongodb://localhost/mitcrewdb");
+mongoose.connect("mongodb://heroku_7006g1f1:u891dr2po2q7lr57k1vgd7qd7@ds161400.mlab.com:61400/heroku_7006g1f1");
 var db = mongoose.connection;
 
 db.on("error", function(error) {
