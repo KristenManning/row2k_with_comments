@@ -1,3 +1,4 @@
+var port = 3000;
 var express = require("express");
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
@@ -145,6 +146,6 @@ app.post("/remove/:id/:index", function(req, res) {
 });
 
 // Listen on port 3000
-app.listen(3101, function() {
+app.listen(process.env.PORT || port, function() {
   console.log("App running on port 3101!");
 });
